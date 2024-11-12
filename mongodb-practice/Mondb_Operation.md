@@ -12,3 +12,18 @@
     {age:{$lt: 30}}
     ]
 }).project({skills:1}).sort({ age:1 })
+
+# db.userdata.updateOne(
+    {_id:ObjectId("6406ad63fc13ae5a40000069"),"education.major":"Biology"}, 
+{
+    $set:{
+        "education.$.major":"CSE"
+    }
+}
+)
+
+
+# db.userdata.deleteOne(
+    {_id:ObjectId("6406ad63fc13ae5a40000065"),}
+
+)
