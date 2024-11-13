@@ -27,3 +27,29 @@
     {_id:ObjectId("6406ad63fc13ae5a40000065"),}
 
 )
+# db.test.aggregate([
+    // stage -1
+
+{$group: { _id: "$address.country",
+count:{$sum:1},
+Name:{$push:"$ROOT"}}},
+// stage -2
+{
+    $project: {
+        "fullDoc.name":1,
+        "fullDoc.email":1,
+        "fullDoc.phone":1,
+    }
+    
+}
+
+// stage -3
+
+
+
+// stage -4
+
+])
+
+ 
+
