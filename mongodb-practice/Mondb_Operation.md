@@ -51,5 +51,86 @@ Name:{$push:"$ROOT"}}},
 
 ])
 
+
+# db.test.aggregate([
+    // stage -1
+
+{
+    $group: {
+    _id:null,
+    totalSalary:{$sum: "$salary"},
+    totolhigh:{$max: "$salary"},
+        lowsalary:{$min: "$salary"},
+        avgsalary:{$avg: "$salary"},
+}
+},
+// stage-2
+{
+    $project: {
+         totalSalary:1,
+           lowsalary:1,
+        avgsalary:1,
+          totolhigh:"$totolhigh",
+          rangeBetweenMaxandMin:{$subtract: ["$totolhigh","$lowsalary"]}
+    }
+}
+
+])
+
+
+<!-- $facet -->
+
+# db.userdata.aggregate([
+   
+
+{
+    $facet: {
+        // pipeline
+        "friendCount":[
+            // stage-1
+            {$unwind: "$friends"},
+            // stage-2
+            {$group: { _id: "$friends",count:{$sum:1}}}
+            
+            ],
+            // pipleline 2
+           " educationCount":[
+            // stage-1
+            {$unwind: "$education"},
+            // stage-2
+            {$group: { _id: "$education",count:{$sum: 1}}}
+               
+               ],
+            // pipeline-3
+           " skillscount":[
+            //   stage-1
+            {$unwind: "$skills"},
+            // stage-2
+            {$group: { _id: "$skills",count:{$sum:1}}}
+               ]
+            
+    }
+}
+
+
+])
+
+<!-- lookup -->
+# db.orders.aggregate([
+    {
+        
+        $lookup: {
+               from: "<userdata>",
+               localField: "<userId>",
+               foreignField: "id",
+               as: "user"
+             }
+    }
+    
+    ])
+
+ 
+
+ 
  
 
